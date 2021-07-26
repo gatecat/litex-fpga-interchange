@@ -1,5 +1,5 @@
 LITEX_TARGET=digilent_arty
-LITEX_ARGS=--cpu-type picorv32 --cpu-variant minimal --sys-clk-freq 50e6 --synth-mode yosys
+LITEX_ARGS=--cpu-type picorv32 --cpu-variant minimal --sys-clk-freq 60e6 --synth-mode yosys
 BUILD_DIR=build/${LITEX_TARGET}/gateware
 TOP_VERILOG=${BUILD_DIR}/${LITEX_TARGET}.v
 
@@ -20,7 +20,10 @@ ${BUILD_DIR}/${LITEX_TARGET}.json: ${TOP_VERILOG}
 	# Determine dependencies and run Yosys
 	TOP=${LITEX_TARGET} VERILOG=$^ OUT_JSON=$@ yosys -ql ${BUILD_DIR}/${LITEX_TARGET}.yosys.log -p "tcl run_yosys.tcl"
 
-${BUILD_DIR}/${LITEX_TARGET}.netlist: ${BUILD_DIR}/${LITEX_TARGET}.json
+${BUILD_DIR}/${LITEX_TARGET}.patched.json: ${BUILD_DIR}/${LITEX_TARGET}.json
+	python3 fixup_bram.py $^ $@
+
+${BUILD_DIR}/${LITEX_TARGET}.netlist: ${BUILD_DIR}/${LITEX_TARGET}.patched.json
 	python3 -m fpga_interchange.yosys_json --schema_dir ${SCHEMA} --device ${DEVICE} --top ${LITEX_TARGET} $^ $@
 
 ${BUILD_DIR}/${LITEX_TARGET}.patched.xdc: ${BUILD_DIR}/${LITEX_TARGET}.xdc

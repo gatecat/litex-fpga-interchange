@@ -23,6 +23,7 @@ conns["IDELAYE2"] = {
     "REGRST": 0,
     "LDPIPEEN": 0,
     "CINVCTRL": 0,
+    "DATAIN": 1,
 }
 
 conns["OSERDESE2"] = {
