@@ -9,7 +9,9 @@ DEVICE=${TESTS}/build/devices/xc7a35t/xc7a35t.device
 CHIPDB=${TESTS}/build/devices/xc7a35t/xc7a35t.bin
 PACKAGE=csg324
 
-all: ${BUILD_DIR}/${LITEX_TARGET}.phys
+RAPIDWRIGHT=${HOME}/RapidWright
+
+all: ${BUILD_DIR}/${LITEX_TARGET}.dcp
 
 ${TOP_VERILOG}:
 	python3 -m litex_boards.targets.${LITEX_TARGET} ${LITEX_ARGS}
@@ -26,6 +28,9 @@ ${BUILD_DIR}/${LITEX_TARGET}.patched.xdc: ${BUILD_DIR}/${LITEX_TARGET}.xdc
 
 ${BUILD_DIR}/${LITEX_TARGET}.phys: ${BUILD_DIR}/${LITEX_TARGET}.netlist ${BUILD_DIR}/${LITEX_TARGET}.patched.xdc
 	nextpnr-fpga_interchange --chipdb ${CHIPDB} --package ${PACKAGE} --netlist ${BUILD_DIR}/${LITEX_TARGET}.netlist --xdc ${BUILD_DIR}/${LITEX_TARGET}.patched.xdc --phys $@
+
+${BUILD_DIR}/${LITEX_TARGET}.dcp: ${BUILD_DIR}/${LITEX_TARGET}.phys
+	RAPIDWRIGHT_PATH=${RAPIDWRIGHT} ${RAPIDWRIGHT}/scripts/invoke_rapidwright.sh  com.xilinx.rapidwright.interchange.PhysicalNetlistToDcp ${BUILD_DIR}/${LITEX_TARGET}.netlist ${BUILD_DIR}/${LITEX_TARGET}.phys ${BUILD_DIR}/${LITEX_TARGET}.xdc $@
 
 clean:
 	rm -rf build/

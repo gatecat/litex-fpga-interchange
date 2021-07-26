@@ -8,6 +8,9 @@ techmap -map remap.v
 opt_expr -undriven
 opt_clean
 
+setattr -set LOC \"IDELAYCTRL_X1Y0\" $::env(TOP)/IDELAYCTRL
+setattr -set BEL \"IDELAYCTRL\" $::env(TOP)/IDELAYCTRL
+
 setundef -zero -params
 
 write_json $::env(OUT_JSON)
