@@ -17,12 +17,3 @@ parameter INIT = 1'b0;
 FDRE #(.INIT(INIT)) _TECHMAP_REPLACE_ (.C(C), .D(D), .CE(1'b1), .R(1'b0), .Q(Q));
 
 endmodule
-
-module OBUFDS(input I, output O, output OB);
-
-parameter CAPACITANCE = "DONT_CARE";
-parameter IOSTANDARD = "DEFAULT";
-parameter SLEW = "SLOW";
-
-OBUFTDS #(.CAPACITANCE(CAPACITANCE), .IOSTANDARD(IOSTANDARD), .SLEW(SLEW)) _TECHMAP_REPLACE_ (.I(I), .T(1'b0), .O(O), .OB(OB));
-endmodule
