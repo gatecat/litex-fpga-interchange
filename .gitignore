@@ -1,2 +1,4 @@
 build/
 *xdef*
+.Xil*
+usage_statistics_webtalk.*

@@ -6,7 +6,7 @@ conns["PLLE2_ADV"] = {
     "CLKFBIN": 0,
     "CLKIN1": 0,
     "CLKIN2": 0,
-    "CLKINSEL": 0,
+    "CLKINSEL": 1,
     "DCLK": 0,
     "DEN": 0,
     "DWE": 0,
