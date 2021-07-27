@@ -30,7 +30,7 @@ ${BUILD_DIR}/${LITEX_TARGET}.patched.xdc: ${BUILD_DIR}/${LITEX_TARGET}.xdc
 	grep 'set_property.*get_ports' $^ > $@  
 
 ${BUILD_DIR}/${LITEX_TARGET}.phys: ${BUILD_DIR}/${LITEX_TARGET}.netlist ${BUILD_DIR}/${LITEX_TARGET}.patched.xdc
-	nextpnr-fpga_interchange --chipdb ${CHIPDB} --package ${PACKAGE} --netlist ${BUILD_DIR}/${LITEX_TARGET}.netlist --xdc ${BUILD_DIR}/${LITEX_TARGET}.patched.xdc --phys $@ --pre-pack fixup_obufds.py --pre-place default_ports.py
+	nextpnr-fpga_interchange --chipdb ${CHIPDB} --package ${PACKAGE} --netlist ${BUILD_DIR}/${LITEX_TARGET}.netlist --xdc ${BUILD_DIR}/${LITEX_TARGET}.patched.xdc --phys $@ --pre-place default_ports.py
 
 ${BUILD_DIR}/${LITEX_TARGET}.dcp: ${BUILD_DIR}/${LITEX_TARGET}.phys
 	RAPIDWRIGHT_PATH=${RAPIDWRIGHT} ${RAPIDWRIGHT}/scripts/invoke_rapidwright.sh  com.xilinx.rapidwright.interchange.PhysicalNetlistToDcp ${BUILD_DIR}/${LITEX_TARGET}.netlist ${BUILD_DIR}/${LITEX_TARGET}.phys ${BUILD_DIR}/${LITEX_TARGET}.xdc $@
